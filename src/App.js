@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-function App() {
-  const [text, setText] = useState('')
+import Header from './containers/blocks/Header'
+import LogIn from './containers/blocks/LogIn'
+import MainPage from './containers/blocks/MainPage'
 
+import './App.css'
+
+function App({ state }) {
   return (
-    <div className="App">
-      <input value={text} onChange={(event) => {
-        setText(event.target.value)
-      }}/>
-      <br />
-    <p>{text}</p>
-    </div>
-  );
+    <BrowserRouter>
+      <Switch>
+        {
+          state.loginData.token ? (
+            <>
+              <Header />
+              <Route path="/mainpage" component={MainPage} />
+              <Route path="/" exact component={LogIn} />
+            </>
+          ) : (
+            <Route path="/" exact component={LogIn} />
+          )
+        }
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
 export default App;
